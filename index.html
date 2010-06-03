@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+<title>MeSH Auto Suggest</title>
+
+<script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+<script type="text/javascript">
+	function lookup(inputString) {
+		if(inputString.length == 0) {
+			// Hide the suggestion box.
+			$('#suggestions').show();
+			$('#autoSuggestionsList').html("<li>Start to type your control vocab string and suggestions should appear here</li>");
+		} else {
+			$.post("rpcmesh.php", {queryString: ""+inputString+""}, function(data){
+			if(data.length >0) {
+				$('#suggestions').show();
+				$('#autoSuggestionsList').html(data);
+			}
+			});
+		}
+	} // lookup
+		
+	function fill(thisValue) {
+		$('#inputString').val(thisValue);
+		setTimeout("$('#suggestions').fadeOut();", 200);
+		if(thisValue) {
+			location.href=('http://summit.worldcat.org/search?q=kw:\"'+thisValue+'\"');
+		}
+	}
+	function goWCL(fIN) {
+		window.open('http://summit.worldcat.org/search?q=kw:\"'+fIN+'\"');
+	}
+
+</script>
+
+<style type="text/css">
+	body {
+		font-family: Helvetica;
+		font-size: 12px;
+		color: #000;
+	}
+	
+	h3 {
+		margin: 0px;
+		padding: 0px;	
+	}
+
+	.suggestionsBox {
+		position: relative;
+		left: 30px;
+		margin: 10px 0px 0px 0px;
+		width: 200px;
+		/* background-color: #212427; */
+		background-color: #003A68;
+		-moz-border-radius: 7px;
+		-webkit-border-radius: 7px;
+		border: 2px solid #000;	
+		color: #fff;
+	}
+	
+	.suggestionList {
+		margin: 0px;
+		padding: 0px;
+	}
+	
+	.suggestionList li {
+		
+		margin: 0px 0px 3px 0px;
+		padding: 3px;
+		cursor: pointer;
+	}
+	
+	.suggestionList li:hover {
+		/* background-color: #659CD8; */
+		background-color: #9E1B34;
+	}
+</style>
+
+</head>
+
+<body>
+
+
+	<div>
+		<form name="form1" onSubmit="javascript:goWCL(document.form1.inputString.value);">
+
+			<div>
+				Type your control vocab string here:
+				<br />
+				<input type="text" size="30" value="" id="inputString" onFocus="lookup(this.value);" onKeyup="lookup(this.value);" onKeydown="lookup(this.value);" onblur="fill();" /><input type="submit" value="Submit" onSubmit="goWCL(this.form.inputString.value)" />
+			</div>
+			
+			<div class="suggestionsBox" id="suggestions" style="display: none;">
+				<img src="upArrow.png" style="position: relative; top: -12px; left: 30px;" alt="upArrow" />
+				<div class="suggestionList" id="autoSuggestionsList">
+					&nbsp;
+				</div>
+			</div>
+		</form>
+	</div>
+
+</body>
+</html>

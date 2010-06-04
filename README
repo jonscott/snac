@@ -1,0 +1,7 @@
+LCSH Autocomplete and other Power Toys:
+
+    Al Cornish & Jon Scott
+
+The new Summit catalog has many useful features, but it still lacks some that staff and patrons alike find highly useful such as LCSH and title autocomplete. 
+
+snac (snac not auto complete) is a project that demonstrates how this sort of functionality can easily be added to any Online Public Access Catalog using harvested data and the WorldCat API.
